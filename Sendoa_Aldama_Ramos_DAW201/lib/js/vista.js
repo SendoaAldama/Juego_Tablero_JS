@@ -112,12 +112,32 @@ function sesion()  //Estructura del inicio de sesion
 
         registro();   //Carga la pagina de registro
 
+
+        setTimeout(() =>
+        {
+
+            alert("El correo debe ser correcto y la contraseña un numero de 6 caracteres");
+
+        },50);
+
         //Se añade un evento al boton resistrarme
         document.getElementById("registrarme").addEventListener("click", (evento) =>    //Si le pulsa se registrara el usuario con los datos indicados
         {
 
-            
+            controlador.usuarioRegistro();  //Registramos el usuario
 
+        });
+
+        document.getElementById("registrarme").addEventListener("keyup", (evento) => //Si presiona enter dentro del input contra
+        {
+    
+            if(evento.key == "Enter")   //Si pulsa el boton Enter
+            {
+    
+                controlador.usuarioRegistro();     //Iniciamos sesion
+    
+            }
+    
         });
 
     });
