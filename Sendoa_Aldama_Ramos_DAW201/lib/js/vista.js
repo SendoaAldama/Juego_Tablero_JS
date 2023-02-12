@@ -232,6 +232,9 @@ function tablero()  //Mostrar el tablero de juego y limpiamos la pagina
     document.getElementsByTagName("body")[0].background = "./lib/img/juego.png";
 
     //Variables
+    let contenedor = document.createElement("div");
+    contenedor.id = "contenedor";
+
     let contenedorTabla = document.createElement("div");    //Div donde va a estar el tablero
     contenedorTabla.id = "contenedor-tabla";
 
@@ -285,7 +288,14 @@ function tablero()  //Mostrar el tablero de juego y limpiamos la pagina
 
     }
 
-    document.getElementsByTagName("body")[0].appendChild(contenedorTabla);  //Añadimos el contenedor de la tabla
+    setTimeout(() =>
+    {
+
+        document.getElementsByTagName("body")[0].appendChild(contenedor);
+
+    },1);
+
+    contenedor.appendChild(contenedorTabla);  //Añadimos el contenedor de la tabla
 
     contenedorTabla.appendChild(tablero);   //Añadimos el tablero
     contenedorTabla.appendChild(divDado);  //Añadimos el contenedor del dado
