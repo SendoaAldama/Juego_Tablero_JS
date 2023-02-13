@@ -17,18 +17,18 @@ const analytics = getAnalytics(app);    //Inicializar firebase
 function comprobarCorreo(correo)    //Comprobar correo con expresion regular
 {	
 
-    let expresion =  /^\w+([.-_+]?\w+)*@\w+([.-]?\w+)*(\.\w{2,10})+$/;
+    let expresion =  /^\w+([.-_+]?\w+)*@\w+([.-]?\w+)*(\.\w{2,10})+$/;  //Expresion regular que indica el tamaño, formato y contenido que puede temer
 
-    if(expresion.test(correo))
+    if(expresion.test(correo))  //Si el correo esta bien formado
     {
 
-        return true;
+        return true;    //Devuelve true
 
     }
-    else
+    else    //Sino 
     {
 
-        return false;
+        return false;   //Devuelve false
 
     }
 
