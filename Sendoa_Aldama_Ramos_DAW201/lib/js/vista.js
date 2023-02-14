@@ -232,6 +232,9 @@ function tablero()  //Mostrar el tablero de juego y limpiamos la pagina
     document.getElementsByTagName("body")[0].background = "./lib/img/juego.png";
 
     //Variables
+    let tiempoI = new Date();
+    tiempoI = tiempoI.toLocaleString();
+
     let contenedor = document.createElement("div");
     contenedor.id = "contenedor";
 
@@ -348,7 +351,7 @@ function tablero()  //Mostrar el tablero de juego y limpiamos la pagina
                 contadorMovimientos++;  //Sumamos un movimiento
 
                 //Movimiento a realizar
-                if(movimiento(tablero, tablero.getElementsByTagName("td"), i, img, contadorMovimientos, contadorTiradas))   //Mandamos los valores para comprobar si gana o no
+                if(movimiento(tablero, tablero.getElementsByTagName("td"), i, img, contadorMovimientos, contadorTiradas, tiempoI))   //Mandamos los valores para comprobar si gana o no
                 {
 
                     limpiar(tablero);   //Limpiamos las marcas del tablero
@@ -371,7 +374,7 @@ function tablero()  //Mostrar el tablero de juego y limpiamos la pagina
 
 }
 
-function movimiento(tablero, recuadro, numero, img, contadorMovimientos, contadorTiradas) //Movimiento del personaje entre los cuadrados
+function movimiento(tablero, recuadro, numero, img, contadorMovimientos, contadorTiradas, tiempoI) //Movimiento del personaje entre los cuadrados
 {
 
     //Codigo
@@ -399,6 +402,11 @@ function movimiento(tablero, recuadro, numero, img, contadorMovimientos, contado
         {
 
             alert("Enorabuena, Has echo "+contadorMovimientos+" movimientos y "+contadorTiradas+" tiradas 🙃");    //Si llega al final sale esto
+
+            let tiempoF = new Date();   //Cogemos la fecha del mometo de ganar
+            tiempoF = tiempoF.toLocaleString(); //Lo tranformamos a string
+
+            controlador.guardarDatosPartida(contadorTiradas, contadorMovimientos, tiempoI, tiempoF);  //Les mandamos para que se guarden los valores y se efectuen las comprobaciones necesarias
 
         },0);
 

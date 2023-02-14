@@ -1,10 +1,11 @@
 `use-strict`;
 
-import { initializeApp } from "https://www.gstatic.com/firebasejs/9.17.1/firebase-app.js";
-import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/9.17.1/firebase-auth.js";
-import { getAnalytics } from "https://www.gstatic.com/firebasejs/9.17.1/firebase-analytics.js";
+import { initializeApp } from "https://www.gstatic.com/firebasejs/9.17.1/firebase-app.js";  //Firebase
+import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/9.17.1/firebase-auth.js";   //Funciones de autenticacion
+import { getAnalytics, } from "https://www.gstatic.com/firebasejs/9.17.1/firebase-analytics.js";    //Analiticas
+import { getFirestore, addDoc, collection, getDocs, } from "https://www.gstatic.com/firebasejs/9.17.1/firebase-firestore.js";    //Base de datos
 
-import { firebaseConfig } from './firebaseConf.js';
+import { firebaseConfig } from './firebaseConf.js'; //Importamos el contenido de firebaseConf.js
 import * as vista from "./vista.js";    //Importamos el js vista en el que se muestran el tablero, inicio de sesion y registro
 
 // https://firebase.google.com/docs/web/setup#available-libraries
@@ -12,6 +13,7 @@ import * as vista from "./vista.js";    //Importamos el js vista en el que se mu
 //Variables 
 const app = initializeApp(firebaseConfig);  //Inicializar conexion
 const analytics = getAnalytics(app);    //Inicializar firebase
+const db = getFirestore(app);   //Inicializamos la base de datos
 
 //Funciones
 function comprobarCorreo(correo)    //Comprobar correo con expresion regular
@@ -38,23 +40,25 @@ function inicioSesion() //Comprobar si el usuario existe
 {
 
     //Varliables
-    let nombre = document.getElementById("usuario-inicio");  //Seleccionamos el correo que ha puesto
+    let correo = document.getElementById("usuario-inicio");  //Seleccionamos el correo que ha puesto
     let contra = document.getElementById("contra-inicio");  //Seleccionamos la contraseña que ha puesto
-    let nombreMostrar = nombre.value.split("@");
+    let nombreMostrar = correo.value.split("@");
     nombreMostrar = nombreMostrar[0];
     const auth = getAuth();
 
     //Codigo
 
-    if(nombre.value != "" && contra.value != "")
+    if(correo.value != "" && contra.value != "")    //Si no estan vacios
     {
 
-        signInWithEmailAndPassword(auth, nombre.value, contra.value)
-        .then(() =>
+        signInWithEmailAndPassword(auth, correo.value, contra.value)    //Comprobacion de si el usuario existe
+        .then(() =>     //Si existe se realizan estas funciones
         {
 
             alert("Bienvenido usuario: "+nombreMostrar); //Le saludamos
             vista.tablero();    //Llamamos a la vista del tablero y su funcionamiento
+
+            sessionStorage.setItem("usuario", correo.value);    //Se añade en la sesion el correo del usuario para saber cual es
 
         })  
         .catch((err) =>     //Si hay algun error
@@ -64,21 +68,21 @@ function inicioSesion() //Comprobar si el usuario existe
             alert("El usuario y contraseña no coincide con ningun usuario");    //Esto se sustituira por una animacion y un div debajo
             
             //Quitamos el focus
-            nombre.blur();
+            correo.blur();
             contra.blur();
 
             //Limpiamos el contenido de los input
-            nombre.value = "";
+            correo.value = "";
             contra.value = "";
 
             //Metemos animacion para indicar que estan mal
-            nombre.classList.add("animacion");  //Se añade la animacion
+            correo.classList.add("animacion");  //Se añade la animacion
             contra.classList.add("animacion");  //Se añade la animacion
 
             setTimeout(function()   //Cuando pase 1 segundo
             {
     
-                nombre.classList.remove('animacion');   //Se quita la animacion
+                correo.classList.remove('animacion');   //Se quita la animacion
                 contra.classList.remove('animacion');   //Se quita la animacion
     
             },1000);
@@ -86,14 +90,14 @@ function inicioSesion() //Comprobar si el usuario existe
         });
 
     }
-    else
+    else    //Si estan vacios
     {
 
-        if(nombre.value == "")  //Si nombre esta vacio
+        if(correo.value == "")  //Si nombre esta vacio
         {
 
-            nombre.classList.add("animacion");  //Se añade la animacion
-            nombre.blur();  //Quitamos el focus
+            correo.classList.add("animacion");  //Se añade la animacion
+            correo.blur();  //Quitamos el focus
 
         }
         if(contra.value == "")  //Si contra esta vacio
@@ -107,7 +111,7 @@ function inicioSesion() //Comprobar si el usuario existe
         setTimeout(function()   //Cuando pase 1 segundo
         {
 
-            nombre.classList.remove('animacion');   //Se quita la animacion
+            correo.classList.remove('animacion');   //Se quita la animacion
             contra.classList.remove('animacion');   //Se quita la animacion
 
         },1000);
@@ -116,21 +120,21 @@ function inicioSesion() //Comprobar si el usuario existe
 
 }
 
-function usuarioRegistro()
+function usuarioRegistro()  //Para registrar el usuario
 {
 
     //Variables
-    let nombre = document.getElementById("usuario-registro");  //Seleccionamos el correo que ha puesto
+    let correo = document.getElementById("usuario-registro");  //Seleccionamos el correo que ha puesto
     let contra = document.getElementById("contra-registro");  //Seleccionamos la contraseña que ha puesto
     const auth = getAuth();
 
     //Codigo
 
-    if(nombre.value != "" && contra.value != "")
+    if(correo.value != "" && contra.value != "")    //Si no estan vacios
     {
 
-        createUserWithEmailAndPassword(auth, nombre.value, contra.value)    //Creacion de la cuenta
-        .then(() =>
+        createUserWithEmailAndPassword(auth, correo.value, contra.value)    //Creacion de la cuenta
+        .then(() =>     //Si no existe el usuario se realiza esta accion
         {
 
             alert("Cuenta registrada con exito"); //Le saludamos
@@ -142,7 +146,7 @@ function usuarioRegistro()
 
             let mensajeR = "";
 
-            if(!comprobarCorreo(nombre.value))  //Mandamos a revisar si lo que esta mal es el correo
+            if(!comprobarCorreo(correo.value))  //Mandamos a revisar si lo que esta mal es el correo
             {
 
                 mensajeR += "Esto no es un correo\n";  //Indica que no es un correo
@@ -170,21 +174,21 @@ function usuarioRegistro()
             }
 
             //Quitamos el focus
-            nombre.blur();
+            correo.blur();
             contra.blur();
 
             //Limpiamos el contenido de los input
-            nombre.value = "";
+            correo.value = "";
             contra.value = "";
 
             //Metemos animacion para indicar que estan mal
-            nombre.classList.add("animacion");  //Se añade la animacion
+            correo.classList.add("animacion");  //Se añade la animacion
             contra.classList.add("animacion");  //Se añade la animacion
 
             setTimeout(function()   //Cuando pase 1 segundo
             {
     
-                nombre.classList.remove('animacion');   //Se quita la animacion
+                correo.classList.remove('animacion');   //Se quita la animacion
                 contra.classList.remove('animacion');   //Se quita la animacion
     
             },1000);
@@ -192,14 +196,14 @@ function usuarioRegistro()
         });
 
     }
-    else
+    else    //Si hay uno de los valores vacios
     {
 
-        if(nombre.value == "")  //Si nombre esta vacio
+        if(correo.value == "")  //Si nombre esta vacio
         {
 
-            nombre.classList.add("animacion");  //Se añade la animacion
-            nombre.blur();  //Quitamos el focus
+            correo.classList.add("animacion");  //Se añade la animacion
+            correo.blur();  //Quitamos el focus
 
         }
         if(contra.value == "")  //Si contra esta vacio
@@ -213,7 +217,7 @@ function usuarioRegistro()
         setTimeout(function()   //Cuando pase 1 segundo
         {
 
-            nombre.classList.remove('animacion');   //Se quita la animacion
+            correo.classList.remove('animacion');   //Se quita la animacion
             contra.classList.remove('animacion');   //Se quita la animacion
 
         },1000);
@@ -222,9 +226,87 @@ function usuarioRegistro()
 
 }
 
+async function record(usuarioB, tiradasB)   //Comprobamos el record y si tiene como tal el usuario
+{
+
+    //Variables
+
+
+    //Codigo
+    const querySnapshot = await getDocs(collection(db, "usuarios"));    //Hacemos la consulta
+
+    querySnapshot.forEach((result) =>   //Revisamos toda la consulta
+    {
+
+        if(result.data().usuario == usuarioB)   //Si esta el usuario se realizan estas comprobaciones
+        {
+
+            if(result.data().recordTiradas < tiradasB)  //Si ha hecho record
+            {
+
+                alert("Héroe, has establecido un récord de tiradas con "+tiradasB+" tiradas");     //Muestra esto
+
+            }
+            else    //Sino
+            {
+
+                alert("Récord no superado, el actual récord es "+result.data().recordTiradas);      //Muestra esto
+
+            }
+
+        }   
+        else    //Sino
+        {
+
+            return false;   //Significa que no hay numero de tiradas registrado
+
+        }
+    
+    });
+
+}
+
+
+function guardarDatosPartida(tiradas, movimientos, fechaI, fechaF)    //Añadimos a la base de datos la informacion de la partida
+{
+
+    //Variables
+    let usuario = sessionStorage.getItem("usuario");    //Guardamos en esta variable el nombre del usuario
+
+    //Codigo
+    // if(record(usuario, tiradas) == false)        //!Mirar esta funcion que hace cosas raras
+    // {
+
+        try     //Realizamos control de errores
+        {
+
+            addDoc(collection(db, "usuarios"),  //Añadimos los valores a la base de datos
+            {
+
+                usuario: usuario,
+                fechaI: fechaI,
+                fechaF: fechaF,
+                recordTiradas: tiradas,
+                movimientos: movimientos
+            
+            });
+
+        } 
+        catch (err)     //Si hay un error
+        {   
+        
+            console.error("Error añadiendo los datos: ", err);  //Mostrara el error desde la consola
+        
+        }
+
+    // }
+
+}
+
 export{     //Exportamos las funciones
 
   inicioSesion,
   usuarioRegistro,
+  guardarDatosPartida,
 
 }
