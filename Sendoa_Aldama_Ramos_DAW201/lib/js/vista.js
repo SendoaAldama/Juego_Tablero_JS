@@ -7,7 +7,7 @@ function sesion()  //Estructura del inicio de sesion
 {
 
     //Imagen de fondo
-    document.getElementsByTagName("body")[0].background = "./lib/img/inicio.jpg";
+    document.getElementsByTagName("body")[0].background = "./lib/img/inicio.jpg";    //Añadimos la imagen de fondo de inicio
 
     //Variables
     let contenedor = document.createElement("div"); //Contenedor con el display flex
@@ -51,28 +51,29 @@ function sesion()  //Estructura del inicio de sesion
 
     //Codigo
 
-    if(document.getElementById("contenedor"))
+    if(document.getElementById("contenedor"))   //Si existe
     {
 
-        document.getElementById("contenedor").remove()
+        document.getElementById("contenedor").remove()  //Lo borramos
 
-        setTimeout(function()
+        setTimeout(function()   //Esperamos 0ms
         {
 
-            document.getElementsByTagName("body")[0].appendChild(contenedor);
+            document.getElementsByTagName("body")[0].appendChild(contenedor);   //Lo volvemos a crear
 
         },0);
 
     }
-    else
+    else    //Sino
     {
 
-        document.getElementsByTagName("body")[0].appendChild(contenedor);
+        document.getElementsByTagName("body")[0].appendChild(contenedor);   //Lo creamos
 
     }
 
-    contenedor.appendChild(contenedorInicio);
+    contenedor.appendChild(contenedorInicio);   //Añadimos el contenedor de inicio en contenedor para mostrar todo el contenido
 
+        //Añadimos el contenido dentro dde contenedor inicios
     contenedorInicio.appendChild(h1);
     contenedorInicio.appendChild(document.createElement("br"));
     contenedorInicio.appendChild(label1);
@@ -83,9 +84,11 @@ function sesion()  //Estructura del inicio de sesion
     contenedorInicio.appendChild(document.createElement("br"));
     contenedorInicio.appendChild(contra);
     contenedorInicio.appendChild(document.createElement("br"));
+    contenedorInicio.appendChild(contenedorBotones);
+
+        //Añadimos el contenido a contenedor de botones
     contenedorBotones.appendChild(jugar);
     contenedorBotones.appendChild(registrar);
-    contenedorInicio.appendChild(contenedorBotones);
 
         //Evento de los botones
     jugar.addEventListener("click", (evento) => //Si pulsa el boton iniciar sesion
@@ -128,13 +131,13 @@ function sesion()  //Estructura del inicio de sesion
 
         });
 
-        document.getElementById("registrarme").addEventListener("keyup", (evento) => //Si presiona enter dentro del input contra
+        document.getElementById("contra-registro").addEventListener("keyup", (evento) => //Si presiona enter dentro del input contra
         {
     
             if(evento.key == "Enter")   //Si pulsa el boton Enter
             {
     
-                controlador.usuarioRegistro();     //Iniciamos sesion
+                document.getElementById("registrarme").click();
     
             }
     
@@ -150,7 +153,7 @@ function registro()
 {
 
     //Imagen de fondo
-    document.getElementsByTagName("body")[0].background = "./lib/img/registro.jpg";
+    document.getElementsByTagName("body")[0].background = "./lib/img/registro.jpg";    //Añadimos la imagen de fondo de registro
 
     //Variables
     let contenedor = document.getElementById("contenedor");
@@ -229,13 +232,13 @@ function tablero()  //Mostrar el tablero de juego y limpiamos la pagina
 {
 
     //Imagen de fondo
-    document.getElementsByTagName("body")[0].background = "./lib/img/juego.png";
+    document.getElementsByTagName("body")[0].background = "./lib/img/juego.png";    //Añadimos la imagen de fondo de tablero
 
     //Variables
-    let tiempoI = new Date();
-    tiempoI = tiempoI.toLocaleString();
+    let tiempoI = new Date();   //Captura de la fecha del sistema
+    tiempoI = tiempoI.toLocaleString(); //Cogemos el tiempo actual enformato string del comento de la captura de la fecha del sistema
 
-    let contenedor = document.createElement("div");
+    let contenedor = document.createElement("div"); //Div que contendra el contenedor del tablero
     contenedor.id = "contenedor";
 
     let contenedorTabla = document.createElement("div");    //Div donde va a estar el tablero
@@ -275,12 +278,12 @@ function tablero()  //Mostrar el tablero de juego y limpiamos la pagina
     for(let i = 0; i < 10; i++) //Creación de los cuados del tablero
     {
 
-        let tr = document.createElement("tr");
+        let tr = document.createElement("tr");  //Creamos los TR
 
-        for(let j = 0; j < 10; j++)
+        for(let j = 0; j < 10; j++) //Para generar 10 tds
         {
 
-            let td = document.createElement("td");
+            let td = document.createElement("td");     //Creamos los TD
             td.setAttribute("punto", i+"."+j);  //Como se van a llamar los puntos para saber cuales son
 
             tr.appendChild(td); //Se añaden los cuadros
@@ -291,10 +294,10 @@ function tablero()  //Mostrar el tablero de juego y limpiamos la pagina
 
     }
 
-    setTimeout(() =>
+    setTimeout(() =>    //Esperamos para que se añada el contenedor despues de 1ms
     {
 
-        document.getElementsByTagName("body")[0].appendChild(contenedor);
+        document.getElementsByTagName("body")[0].appendChild(contenedor);   //Añadimos el contenedor al body
 
     },1);
 
@@ -317,22 +320,22 @@ function tablero()  //Mostrar el tablero de juego y limpiamos la pagina
         if(tirado == false) //Si puede tirar porque no ha lanzado o esta en otro turno
         {
 
-            tirado = true;
+            tirado = true;  //Si esta true no puede lanzar hasta que se mueva o se compruebe si no pude moverse
 
             numeroMovimiento = numeroDado();    //Sacar numero del dado
 
-            numero.removeChild(numero.firstChild);
+            numero.removeChild(numero.firstChild);  //Borramos el primer hijo
     
-            numero.appendChild(document.createTextNode(numeroMovimiento));
+            numero.appendChild(document.createTextNode(numeroMovimiento));  //Se indica aqui el numero por escrito
     
             if(!pintar(numeroMovimiento, tablero))  //Para saber si tiene o no casillas
             {
 
-                tirado = false;
+                tirado = false;     //Para que pueda volver a tirar si no hay casillas
 
             }
 
-            contadorTiradas++;
+            contadorTiradas++;  //Sumamos uno mas al contador
 
         }
 
@@ -355,14 +358,14 @@ function tablero()  //Mostrar el tablero de juego y limpiamos la pagina
                 {
 
                     limpiar(tablero);   //Limpiamos las marcas del tablero
-                    tirado = true;
+                    tirado = true;      //Si esta true no puede volver a tirar el dado
 
                 }
                 else
                 {
                     
                     limpiar(tablero);   //Limpiamos las marcas del tablero
-                    tirado = false;
+                    tirado = false;     //Si esta falso puede volver a tirar el dado
 
                 }
 
@@ -378,7 +381,6 @@ function movimiento(tablero, recuadro, numero, img, contadorMovimientos, contado
 {
 
     //Codigo
-
     for(let i = 0; i < tablero.childElementCount; i++)  //Buscamos la posicion de las marcas
     {
 
@@ -406,7 +408,7 @@ function movimiento(tablero, recuadro, numero, img, contadorMovimientos, contado
             let tiempoF = new Date();   //Cogemos la fecha del mometo de ganar
             tiempoF = tiempoF.toLocaleString(); //Lo tranformamos a string
 
-            controlador.guardarDatosPartida(contadorTiradas, contadorMovimientos, tiempoI, tiempoF);  //Les mandamos para que se guarden los valores y se efectuen las comprobaciones necesarias
+            controlador.record(contadorTiradas, contadorMovimientos, tiempoI, tiempoF);  //Les mandamos para que se guarden los valores y se efectuen las comprobaciones necesarias
 
         },0);
 
@@ -418,7 +420,7 @@ function movimiento(tablero, recuadro, numero, img, contadorMovimientos, contado
 
 }
 
-function posibilidades(casillaClick)    //Comprobar si puede ir ahi
+function posibilidades(casillaClick)    //Comprobar si puede ir a ese cuadrado
 {
 
     if(casillaClick.classList.contains("marca") || casillaClick.style.backgroundColor == "red")    //Si lo tiene puede hacer la accion
@@ -427,7 +429,7 @@ function posibilidades(casillaClick)    //Comprobar si puede ir ahi
         return true;    //Puede
 
     }
-    else
+    else    //Sino
     {
 
         return false;   //No puede
@@ -446,7 +448,7 @@ function pintar(movimientos, tablero)   //Pintar el tablero por su posicion y el
     let fila;   //Fila actual
     let columna;    //Columna actual
 
-    let haySitio = false;
+    let haySitio = false;   //Para saber si hay algun sitio donde desplazarse
 
     //Codigo
     for(let i = 0; i < tablero.childElementCount; i++)  //Lo buscamos
@@ -455,7 +457,7 @@ function pintar(movimientos, tablero)   //Pintar el tablero por su posicion y el
         for(let j = 0; j < tablero.childNodes[i].childElementCount; j++)    //Recorremos el tablero
         {
 
-            if(tablero.childNodes[i].childNodes[j].childElementCount != 0)
+            if(tablero.childNodes[i].childNodes[j].childElementCount != 0)  //Si tiene hijos, en este caso el unico hijo que puede tener es el personaje
             {
 
                 esta = tablero.childNodes[i].childNodes[j].getAttribute("punto");   //Almacenamos la posicion
@@ -557,7 +559,7 @@ function pintar(movimientos, tablero)   //Pintar el tablero por su posicion y el
 
 }
 
-function limpiar(tablero)   //Limpiamos el tablero
+function limpiar(tablero)   //Limpiamos el tablero quitando la clase marca y el background-color
 {
 
     for(let i = 0; i < tablero.childElementCount; i++)  //Lo buscamos
@@ -578,7 +580,7 @@ function limpiar(tablero)   //Limpiamos el tablero
 function numeroDado() //Aqui se realizaria la animacion del movimiento... Y se manda el numero que haya salido en el dado
 {
 
-    return Math.floor(Math.random() * 6)+1;
+    return Math.floor(Math.random() * 6)+1; //Sacamos un numero del 1 al 6
 
 }
 

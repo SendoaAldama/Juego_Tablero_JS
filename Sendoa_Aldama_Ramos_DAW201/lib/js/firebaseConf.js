@@ -1,6 +1,10 @@
 `use-strict`;
 
-const firebaseConfig = 
+/*
+    Creamos la constante firebaseConfig para almacenar las referencias a nuestro proyecto de firebase donde tenemos la autenticacion,
+    el insertar datos...
+*/
+const firebaseConfig =  
 {
 
     apiKey: "AIzaSyCv5Ja6c0oE1wDlA1y2Y6bL2n0zduEOQHg",
@@ -13,7 +17,8 @@ const firebaseConfig =
 
 };
 
-export{
+//Exportamos la constante para usarla en otro js
+export{ 
 
     firebaseConfig,
 

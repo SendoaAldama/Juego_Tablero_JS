@@ -16,4 +16,4 @@ function inicio()
 
 }
 
-window.onload = inicio();
+window.onload = inicio();   //Cuando se inicie la web cargara el inicio de sesion siempre

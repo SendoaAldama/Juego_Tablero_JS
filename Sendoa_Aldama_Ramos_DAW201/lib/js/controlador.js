@@ -3,7 +3,7 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.17.1/firebase-app.js";  //Firebase
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/9.17.1/firebase-auth.js";   //Funciones de autenticacion
 import { getAnalytics, } from "https://www.gstatic.com/firebasejs/9.17.1/firebase-analytics.js";    //Analiticas
-import { getFirestore, addDoc, collection, getDocs, } from "https://www.gstatic.com/firebasejs/9.17.1/firebase-firestore.js";    //Base de datos
+import { getFirestore, addDoc, collection, getDocs, updateDoc, doc } from "https://www.gstatic.com/firebasejs/9.17.1/firebase-firestore.js";    //Base de datos
 
 import { firebaseConfig } from './firebaseConf.js'; //Importamos el contenido de firebaseConf.js
 import * as vista from "./vista.js";    //Importamos el js vista en el que se muestran el tablero, inicio de sesion y registro
@@ -138,7 +138,7 @@ function usuarioRegistro()  //Para registrar el usuario
         {
 
             alert("Cuenta registrada con exito"); //Le saludamos
-            vista.inicioSesion();    //Llamamos a la vista del inicio de sesion para que inicie sesion
+            vista.sesion();    //Llamamos a la vista del inicio de sesion para que inicie sesion
 
         })
         .catch((err) => //Si hay algun error
@@ -226,26 +226,37 @@ function usuarioRegistro()  //Para registrar el usuario
 
 }
 
-async function record(usuarioB, tiradasB)   //Comprobamos el record y si tiene como tal el usuario
+async function record(tiradas, movimientos, fechaI, fechaF)   //Comprobamos el record y si tiene como tal el usuario
 {
 
     //Variables
-
+    let usuario = sessionStorage.getItem("usuario");    //Guardamos en esta variable el nombre del usuario
 
     //Codigo
-    const querySnapshot = await getDocs(collection(db, "usuarios"));    //Hacemos la consulta
+    const consulta = await getDocs(collection(db, "usuarios"));    //Hacemos la consulta
+    let encontrado = false; //Si no lo ha encontrado sale false si es true es que lo ha encontrado
 
-    querySnapshot.forEach((result) =>   //Revisamos toda la consulta
+    consulta.forEach((result) =>   //Revisamos toda la consulta
     {
 
-        if(result.data().usuario == usuarioB)   //Si esta el usuario se realizan estas comprobaciones
+        if(result.data().usuario == usuario && encontrado == false)   //Si esta el usuario se realizan estas comprobaciones
         {
 
-            if(result.data().recordTiradas < tiradasB)  //Si ha hecho record
+            if(result.data().recordTiradas > tiradas)  //Si ha hecho record
             {
 
-                alert("Héroe, has establecido un récord de tiradas con "+tiradasB+" tiradas");     //Muestra esto
+                alert("Héroe, has establecido un récord de tiradas con "+tiradas+" tiradas");     //Muestra esto
 
+                let actu = doc(db, "usuarios", result.id);  //Actualizamos datos
+
+                updateDoc(actu,     
+                {
+                    
+                    recordTiradas: tiradas,  //Actualizamos el recordTiradas
+                    movimientos: movimientos    //Actualizar los movimientos
+                
+                });
+                
             }
             else    //Sino
             {
@@ -254,15 +265,18 @@ async function record(usuarioB, tiradasB)   //Comprobamos el record y si tiene c
 
             }
 
+            encontrado = true; //Rompemos el forEach
+
         }   
-        else    //Sino
-        {
-
-            return false;   //Significa que no hay numero de tiradas registrado
-
-        }
     
     });
+
+    if(encontrado == false) //Si no lo ha encntrado
+    {
+
+        guardarDatosPartida(tiradas, movimientos, fechaI, fechaF);  //Añadimos si no lo hemos encontrado
+
+    }
 
 }
 
@@ -274,39 +288,37 @@ function guardarDatosPartida(tiradas, movimientos, fechaI, fechaF)    //Añadimo
     let usuario = sessionStorage.getItem("usuario");    //Guardamos en esta variable el nombre del usuario
 
     //Codigo
-    // if(record(usuario, tiradas) == false)        //!Mirar esta funcion que hace cosas raras
-    // {
+    try     //Realizamos control de errores
+    {
 
-        try     //Realizamos control de errores
+        alert("Héroe, has establecido un récord de tiradas con "+tiradas+" tiradas"); 
+        addDoc(collection(db, "usuarios"),  //Añadimos los valores a la base de datos
         {
 
-            addDoc(collection(db, "usuarios"),  //Añadimos los valores a la base de datos
-            {
-
-                usuario: usuario,
-                fechaI: fechaI,
-                fechaF: fechaF,
-                recordTiradas: tiradas,
-                movimientos: movimientos
-            
-            });
-
-        } 
-        catch (err)     //Si hay un error
-        {   
+            usuario: usuario,
+            fechaI: fechaI,
+            fechaF: fechaF,
+            recordTiradas: tiradas,
+            movimientos: movimientos
         
-            console.error("Error añadiendo los datos: ", err);  //Mostrara el error desde la consola
-        
-        }
+        });
 
-    // }
+    } 
+    catch (err)     //Si hay un error
+    {   
+    
+        console.error("Error añadiendo los datos: ", err);  //Mostrara el error desde la consola
+    
+    }
 
 }
 
-export{     //Exportamos las funciones
+    //Exportamos las funciones
+export{     
 
   inicioSesion,
   usuarioRegistro,
   guardarDatosPartida,
+  record,
 
 }
