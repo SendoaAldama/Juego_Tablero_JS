@@ -50,7 +50,6 @@ function sesion()  //Estructura del inicio de sesion
     registrar.appendChild(document.createTextNode("Registrarme"));
 
     //Codigo
-
     if(document.getElementById("contenedor"))   //Si existe
     {
 
@@ -116,10 +115,10 @@ function sesion()  //Estructura del inicio de sesion
         registro();   //Carga la pagina de registro
 
 
-        setTimeout(() =>
+        setTimeout(() =>    //Despues de 50 milisegundos
         {
 
-            alert("El correo debe ser correcto y la contraseña un numero de 6 caracteres");
+            alert("El correo debe ser correcto y la contraseña un numero de 6 caracteres"); //Muestra cuando sale
 
         },50);
 
@@ -137,7 +136,7 @@ function sesion()  //Estructura del inicio de sesion
             if(evento.key == "Enter")   //Si pulsa el boton Enter
             {
     
-                document.getElementById("registrarme").click();
+                document.getElementById("registrarme").click(); //Hace la funcion del click de registrarme
     
             }
     
@@ -250,17 +249,14 @@ function tablero()  //Mostrar el tablero de juego y limpiamos la pagina
     let divDado = document.createElement("div");    //Donde aparece el dado
     divDado.id = "contenedor-dado";
 
+    let dado = document.createElement("div");    //Donde aparece el dado
+    dado.id = "con-dado";
+
+        //Sacamos le dado               
+    crearDado(dado);
+
     let tirado = false; //Si esta en false no se puede mover hasta que lance el dado
                         //Si esta en true se puede mover porque ha pulsado al dado
-    
-    let dado = document.createElement("button");    //!Aparicion del dado
-    let textoDado = document.createTextNode("Dado");    //!Texto del dado
-    dado.appendChild(textoDado);    //!Añadimos texto
-    dado.id = "dado";
-
-    let numero = document.createElement("p");   //!Para añadir luego el numero que sale el dado (Temporal)
-    numero.id = "numeroDado";
-    numero.appendChild(document.createTextNode("Aqui sale el numero")); //!
 
     let numeroMovimiento;   //Donde se va a almacenar el numero que salga en el dado
 
@@ -307,26 +303,30 @@ function tablero()  //Mostrar el tablero de juego y limpiamos la pagina
     contenedorTabla.appendChild(divDado);  //Añadimos el contenedor del dado
 
     divDado.appendChild(dado);  //Añadimos el dado "En este caso va a ser un boton"
-    divDado.appendChild(numero);    //Añadimos donde se muestra luego el numero
 
     tablero.firstChild.firstChild.id = "inicio";
     tablero.firstChild.firstChild.appendChild(img); //Añadimos la imagen en el principi del tablero
 
     tablero.lastChild.lastChild.id = "fin";
 
-    dado.addEventListener("click", (evento) => //Efecto al pulsar el dado
+    divDado.addEventListener("click", (evento) => //Efecto al pulsar el dado
     {
 
         if(tirado == false) //Si puede tirar porque no ha lanzado o esta en otro turno
         {
 
-            tirado = true;  //Si esta true no puede lanzar hasta que se mueva o se compruebe si no pude moverse
-
             numeroMovimiento = numeroDado();    //Sacar numero del dado
 
-            numero.removeChild(numero.firstChild);  //Borramos el primer hijo
-    
-            numero.appendChild(document.createTextNode(numeroMovimiento));  //Se indica aqui el numero por escrito
+            document.querySelector(".cubo3D").classList.add("animacion1");   //Añadimos la animacion de girar
+
+            setTimeout((e) =>
+            {
+
+                document.querySelector(".cubo3D").classList.remove("animacion1");    //La quitamos
+
+            }, 500);   //Despues de 1s
+
+            tirado = true;  //Si esta true no puede lanzar hasta que se mueva o se compruebe si no pude moverse
     
             if(!pintar(numeroMovimiento, tablero))  //Para saber si tiene o no casillas
             {
@@ -552,7 +552,13 @@ function pintar(movimientos, tablero)   //Pintar el tablero por su posicion y el
     else
     {
 
-        alert("No hay ninguna casilla a la que puedes desplazarte, tira de nuevo los dados");   //Le sacamos esto si no puede moverse
+        setTimeout(() =>
+        {
+
+            alert("No hay ninguna casilla a la que puedes desplazarte, tira de nuevo los dados");   //Le sacamos esto si no puede moverse
+
+        }, 600);    //Despues de 6 milisegundos
+
         return false;   //No moverse porque no tiene casillas
 
     }
@@ -580,9 +586,295 @@ function limpiar(tablero)   //Limpiamos el tablero quitando la clase marca y el 
 function numeroDado() //Aqui se realizaria la animacion del movimiento... Y se manda el numero que haya salido en el dado
 {
 
-    return Math.floor(Math.random() * 6)+1; //Sacamos un numero del 1 al 6
+    //Variables
+    let numero = Math.floor(Math.random() * 6)+1;
+    let posicion = "cubo"+numero;
+
+    //Codigo
+    document.querySelector(".cubo3D").id = posicion;
+
+    return numero; //Sacamos un numero del 1 al 6
 
 }
+
+function crearDado(contenedor) //Aqui se dibujara el dado por primera vez
+{
+
+    //Variables
+        //Divs
+            //Creacion de los Divs
+    let espacio3D = document.createElement("div");
+    let cubo3D = document.createElement("div");
+    let base = document.createElement("div");
+
+            //Asignacion de sus clases
+    espacio3D.classList.add("espacio3D");
+    cubo3D.classList.add("cubo3D");
+    base.classList.add("base");
+
+            //Añadir posicion inicial
+    cubo3D.id = "cubo1";
+        //Aside
+            //Creacion de los aside
+    let aside1 = document.createElement('aside');
+    let aside2 = document.createElement('aside');
+    let aside3 = document.createElement('aside');
+    let aside4 = document.createElement('aside');
+    let aside5 = document.createElement('aside');
+    let aside6 = document.createElement('aside');
+            //Asignacion de las clases
+    aside1.classList.add("cara");
+    aside2.classList.add("cara");
+    aside3.classList.add("cara");
+    aside4.classList.add("cara");
+    aside5.classList.add("cara");
+    aside6.classList.add("cara");
+
+    aside1.classList.add("cara1");
+    aside2.classList.add("cara2");
+    aside3.classList.add("cara3");
+    aside4.classList.add("cara4");
+    aside5.classList.add("cara5");
+    aside6.classList.add("cara6");
+
+        //Canvas
+            //Cracion de los canvas
+    let canvas1 = document.createElement('canvas');
+    let canvas2 = document.createElement('canvas');
+    let canvas3 = document.createElement('canvas');
+    let canvas4 = document.createElement('canvas');
+    let canvas5 = document.createElement('canvas');
+    let canvas6 = document.createElement('canvas');
+
+            //Asignacion de sus divs
+    canvas1.id = "dado1";
+    canvas2.id = "dado2";
+    canvas3.id = "dado3";
+    canvas4.id = "dado4";
+    canvas5.id = "dado5";
+    canvas6.id = "dado6";
+
+            //Asignacion de sus clases
+    canvas1.classList.add("dado");
+    canvas2.classList.add("dado");
+    canvas3.classList.add("dado");
+    canvas4.classList.add("dado");
+    canvas5.classList.add("dado");
+    canvas6.classList.add("dado");
+
+            //Añadir estilos width
+    canvas1.width = 300;
+    canvas2.width = 300;
+    canvas3.width = 300;
+    canvas4.width = 300;
+    canvas5.width = 300;
+    canvas6.width = 300;
+
+            //Añadir estilos height
+    canvas1.height = 300;
+    canvas2.height = 300;
+    canvas3.height = 300;
+    canvas4.height = 300;
+    canvas5.height = 300;
+    canvas6.height = 300;
+
+    //Codigo
+    if (canvas1.getContext){
+        var ctx = canvas1.getContext("2d");
+        var X = canvas1.width*0.5;
+        var Y = canvas1.height*0.5;
+        var r = canvas1.height*0.125;
+        ctx.beginPath();
+        ctx.arc(X, Y, r, 0, 2 * Math.PI);
+        ctx.fillStyle = "black";
+        ctx.fill();
+    }
+
+    if (canvas2.getContext){
+        var ctx = canvas2.getContext("2d");
+        var X = canvas2.width*0.25;
+        var Y = canvas2.height/2;
+        var r = canvas2.height*0.125;
+        ctx.beginPath();
+        ctx.arc(X, Y, r, 0, 2 * Math.PI);
+        ctx.fillStyle = "black";
+        ctx.fill();
+        var X = canvas2.width*0.75;
+        var Y = canvas2.height/2;
+        var r = canvas2.height/8;
+        ctx.beginPath();
+        ctx.arc(X, Y, r, 0, 2 * Math.PI);
+        ctx.fillStyle = "black";
+        ctx.fill();
+    }
+
+    if (canvas3.getContext){
+        var ctx = canvas3.getContext("2d");
+        var X = canvas3.width*0.25;
+        var Y = canvas3.height*0.25;
+        var r = canvas3.height*0.125;
+        ctx.beginPath();
+        ctx.arc(X, Y, r, 0, 2 * Math.PI);
+        ctx.fillStyle = "black";
+        ctx.fill();
+        var X = canvas3.width*0.5;
+        var Y = canvas3.height/2;
+        var r = canvas3.height/8;
+        ctx.beginPath();
+        ctx.arc(X, Y, r, 0, 2 * Math.PI);
+        ctx.fillStyle = "black";
+        ctx.fill();
+        var X = canvas3.width*0.75;
+        var Y = canvas3.height*0.75;
+        var r = canvas3.height/8;
+        ctx.beginPath();
+        ctx.arc(X, Y, r, 0, 2 * Math.PI);
+        ctx.fillStyle = "black";
+        ctx.fill();
+    }
+
+    if (canvas4.getContext){
+        var ctx = canvas4.getContext("2d");
+        var X = canvas4.width*0.25;
+        var Y = canvas4.height*0.25;
+        var r = canvas4.height*0.125;
+        ctx.beginPath();
+        ctx.arc(X, Y, r, 0, 2 * Math.PI);
+        ctx.fillStyle = "black";
+        ctx.fill();
+        var X = canvas4.width*0.75;
+        var Y = canvas4.height*0.25;
+        var r = canvas4.height/8;
+        ctx.beginPath();
+        ctx.arc(X, Y, r, 0, 2 * Math.PI);
+        ctx.fillStyle = "black";
+        ctx.fill();
+        var X = canvas4.width*0.25;
+        var Y = canvas4.height*0.75;
+        var r = canvas4.height/8;
+        ctx.beginPath();
+        ctx.arc(X, Y, r, 0, 2 * Math.PI);
+        ctx.fillStyle = "black";
+        ctx.fill();
+        var X = canvas4.width*0.75;
+        var Y = canvas4.height*0.75;
+        var r = canvas4.height/8;
+        ctx.beginPath();
+        ctx.arc(X, Y, r, 0, 2 * Math.PI);
+        ctx.fillStyle = "black";
+        ctx.fill();
+    }
+
+    if (canvas5.getContext){
+        var ctx = canvas5.getContext("2d");
+        var X = canvas5.width*0.25;
+        var Y = canvas5.height*0.25;
+        var r = canvas5.height*0.125;
+        ctx.beginPath();
+        ctx.arc(X, Y, r, 0, 2 * Math.PI);
+        ctx.fillStyle = "black";
+        ctx.fill();
+        var X = canvas5.width*0.75;
+        var Y = canvas5.height*0.25;
+        var r = canvas5.height/8;
+        ctx.beginPath();
+        ctx.arc(X, Y, r, 0, 2 * Math.PI);
+        ctx.fillStyle = "black";
+        ctx.fill();
+        var X = canvas5.width*0.25;
+        var Y = canvas5.height*0.75;
+        var r = canvas5.height/8;
+        ctx.beginPath();
+        ctx.arc(X, Y, r, 0, 2 * Math.PI);
+        ctx.fillStyle = "black";
+        ctx.fill();
+        var X = canvas5.width*0.75;
+        var Y = canvas5.height*0.75;
+        var r = canvas5.height/8;
+        ctx.beginPath();
+        ctx.arc(X, Y, r, 0, 2 * Math.PI);
+        ctx.fillStyle = "black";
+        ctx.fill();
+        var X = canvas5.width*0.5;
+        var Y = canvas5.height*0.5;
+        var r = canvas5.height*0.125;
+        ctx.beginPath();
+        ctx.arc(X, Y, r, 0, 2 * Math.PI);
+        ctx.fillStyle = "black";
+        ctx.fill();
+    }
+
+    if (canvas6.getContext){
+        var ctx = canvas6.getContext("2d");
+        var X = canvas6.width*0.25;
+        var Y = canvas6.height*0.25;
+        var r = canvas6.height*0.125;
+        ctx.beginPath();
+        ctx.arc(X, Y, r, 0, 2 * Math.PI);
+        ctx.fillStyle = "black";
+        ctx.fill();
+        var X = canvas6.width*0.75;
+        var Y = canvas6.height*0.25;
+        var r = canvas6.height/8;
+        ctx.beginPath();
+        ctx.arc(X, Y, r, 0, 2 * Math.PI);
+        ctx.fillStyle = "black";
+        ctx.fill();
+        var X = canvas6.width*0.25;
+        var Y = canvas6.height*0.75;
+        var r = canvas6.height/8;
+        ctx.beginPath();
+        ctx.arc(X, Y, r, 0, 2 * Math.PI);
+        ctx.fillStyle = "black";
+        ctx.fill();
+        var X = canvas6.width*0.75;
+        var Y = canvas6.height*0.75;
+        var r = canvas6.height/8;
+        ctx.beginPath();
+        ctx.arc(X, Y, r, 0, 2 * Math.PI);
+        ctx.fillStyle = "black";
+        ctx.fill();
+        var X = canvas6.width*0.5;
+        var Y = canvas6.height*0.25;
+        var r = canvas6.height*0.125;
+        ctx.beginPath();
+        ctx.arc(X, Y, r, 0, 2 * Math.PI);
+        ctx.fillStyle = "black";
+        ctx.fill();
+        var X = canvas6.width*0.5;
+        var Y = canvas6.height*0.75;
+        var r = canvas6.height*0.125;
+        ctx.beginPath();
+        ctx.arc(X, Y, r, 0, 2 * Math.PI);
+        ctx.fillStyle = "black";
+        ctx.fill();
+    }
+
+        //Añadimos los canvas en sus aside
+    aside1.appendChild(canvas1);
+    aside2.appendChild(canvas2);
+    aside3.appendChild(canvas3);
+    aside4.appendChild(canvas4);
+    aside5.appendChild(canvas5);
+    aside6.appendChild(canvas6);
+
+        //Añadimos los aside y la base a cubo3D
+    cubo3D.appendChild(base);
+    cubo3D.appendChild(aside1);
+    cubo3D.appendChild(aside2);
+    cubo3D.appendChild(aside3);
+    cubo3D.appendChild(aside4);
+    cubo3D.appendChild(aside5);
+    cubo3D.appendChild(aside6);
+
+        //Añadimos el cubo3D en espacio3D
+    espacio3D.appendChild(cubo3D);
+
+        //Lo añadimos en el contendor del div del boton
+    contenedor.appendChild(espacio3D);
+
+}
+
 
     //Exportamos funciones
 export{

@@ -55,10 +55,33 @@ function inicioSesion() //Comprobar si el usuario existe
         .then(() =>     //Si existe se realizan estas funciones
         {
 
-            alert("Bienvenido usuario: "+nombreMostrar); //Le saludamos
-            vista.tablero();    //Llamamos a la vista del tablero y su funcionamiento
+            if(document.getElementById("jugar"))    //Miramos si existe
+            {
 
-            sessionStorage.setItem("usuario", correo.value);    //Se añade en la sesion el correo del usuario para saber cual es
+                document.getElementById("jugar").remove();  //Borramo boton Inicio Sesion
+
+                let jugar = document.createElement("button");   //Boton de jugar
+                jugar.id = "jugar";
+                jugar.appendChild(document.createTextNode("Jugar"));
+
+                setTimeout(() =>    
+                {
+                    
+                    document.getElementById("contenedor-botones").insertBefore(jugar, document.getElementById("registrar"));
+
+                }, 0);
+
+                jugar.addEventListener("click", (evento) =>
+                {
+
+                    alert("Bienvenido usuario: "+nombreMostrar); //Le saludamos
+                    vista.tablero();    //Llamamos a la vista del tablero y su funcionamiento
+        
+                    sessionStorage.setItem("usuario", correo.value);    //Se añade en la sesion el correo del usuario para saber cual es
+
+                });
+
+            }
 
         })  
         .catch((err) =>     //Si hay algun error
@@ -253,7 +276,9 @@ async function record(tiradas, movimientos, fechaI, fechaF)   //Comprobamos el r
                 {
                     
                     recordTiradas: tiradas,  //Actualizamos el recordTiradas
-                    movimientos: movimientos    //Actualizar los movimientos
+                    movimientos: movimientos,    //Actualizar los movimientos
+                    fechaI: fechaI,     //Actualizamos fecha inicio
+                    fechaF: fechaF      //Actualizamos fecha fin
                 
                 });
                 
