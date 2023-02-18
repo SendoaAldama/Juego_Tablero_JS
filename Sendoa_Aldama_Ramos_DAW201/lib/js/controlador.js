@@ -3,9 +3,9 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.17.1/firebase-app.js";  //Firebase
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/9.17.1/firebase-auth.js";   //Funciones de autenticacion
 import { getAnalytics, } from "https://www.gstatic.com/firebasejs/9.17.1/firebase-analytics.js";    //Analiticas
-import { getFirestore, addDoc, collection, getDocs, updateDoc, doc } from "https://www.gstatic.com/firebasejs/9.17.1/firebase-firestore.js";    //Base de datos
+import { getFirestore, addDoc, collection, getDocs, updateDoc, doc } from "https://www.gstatic.com/firebasejs/9.17.1/firebase-firestore.js"; //Añadir datos a la base de datos llamada fire store   //Base de datos
 
-import { firebaseConfig } from './firebaseConf.js'; //Importamos el contenido de firebaseConf.js
+import { firebaseConfig } from './firebaseConf.js'; //Importamos el contenido de firebaseConf.js que son las referencia de los datos del proyecto
 import * as vista from "./vista.js";    //Importamos el js vista en el que se muestran el tablero, inicio de sesion y registro
 
 // https://firebase.google.com/docs/web/setup#available-libraries
@@ -69,9 +69,9 @@ function inicioSesion() //Comprobar si el usuario existe
                     
                     document.getElementById("contenedor-botones").insertBefore(jugar, document.getElementById("registrar"));
 
-                }, 0);
+                }, 0);      //Al momento se introduce el boton de jugar antes del de registrar
 
-                jugar.addEventListener("click", (evento) =>
+                jugar.addEventListener("click", (evento) =>     //Evento de click del boton jugar
                 {
 
                     alert("Bienvenido usuario: "+nombreMostrar); //Le saludamos

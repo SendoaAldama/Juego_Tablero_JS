@@ -324,16 +324,16 @@ function tablero()  //Mostrar el tablero de juego y limpiamos la pagina
 
                 document.querySelector(".cubo3D").classList.remove("animacion1");    //La quitamos
 
-            }, 500);   //Despues de 1s
+                if(!pintar(numeroMovimiento, tablero))  //Para saber si tiene o no casillas
+                {
+    
+                    tirado = false;     //Para que pueda volver a tirar si no hay casillas
+    
+                }
+
+            }, 500);   //Despues de 0.5s
 
             tirado = true;  //Si esta true no puede lanzar hasta que se mueva o se compruebe si no pude moverse
-    
-            if(!pintar(numeroMovimiento, tablero))  //Para saber si tiene o no casillas
-            {
-
-                tirado = false;     //Para que pueda volver a tirar si no hay casillas
-
-            }
 
             contadorTiradas++;  //Sumamos uno mas al contador
 
