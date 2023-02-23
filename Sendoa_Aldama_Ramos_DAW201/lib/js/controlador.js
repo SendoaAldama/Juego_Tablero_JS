@@ -303,6 +303,13 @@ async function record(tiradas, movimientos, fechaI, fechaF)   //Comprobamos el r
 
     }
 
+    setTimeout(() =>    //Despues de 5 segundos se actualizara la pagina y volveremos al inicio de sesion
+    {
+
+        location.reload();  //Se actualizara la pagina
+
+    },5000);    //Despues de 5 segundos
+
 }
 
 

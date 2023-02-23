@@ -171,6 +171,11 @@ input{
 
 #tablero{
 
+    background-image: url(../img/fondo.jpg);
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+
     border: 1px solid black;
     border-collapse: collapse;
 
@@ -192,7 +197,10 @@ td{
 
 #inicio{
 
-    background-color: blue;
+    background-image: url(../img/casa.png);
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
 
 }
 
