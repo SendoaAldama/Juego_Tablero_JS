@@ -123,6 +123,21 @@ input{
 
 }
 
+#play{
+
+    height: 30px;
+    width: 80%;
+
+    transition: 1s;
+
+}
+
+#play:hover{
+
+    background-color: red;
+
+}
+
 /* Registro */
 #contenedor-registro{
 

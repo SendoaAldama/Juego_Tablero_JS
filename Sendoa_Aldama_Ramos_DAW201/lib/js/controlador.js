@@ -55,14 +55,19 @@ function inicioSesion() //Comprobar si el usuario existe
         .then(() =>     //Si existe se realizan estas funciones
         {
 
+            //Bloqueamos los input donde esta el correo y la contraseña para que el usuario no los pueda editar ya
+            document.getElementById("usuario-inicio").disabled = true;
+            document.getElementById("contra-inicio").disabled = true;
+
             if(document.getElementById("jugar"))    //Miramos si existe
             {
 
                 document.getElementById("jugar").remove();  //Borramo boton Inicio Sesion
+                document.getElementById("registrar").remove();  //Borramo boton de registro
 
                 let jugar = document.createElement("button");   //Boton de jugar
-                jugar.id = "jugar";
-                jugar.appendChild(document.createTextNode("Jugar"));
+                jugar.id = "play";
+                jugar.appendChild(document.createTextNode("Jugar"));                
 
                 setTimeout(() =>    
                 {
@@ -164,10 +169,10 @@ function usuarioRegistro()  //Para registrar el usuario
             vista.sesion();    //Llamamos a la vista del inicio de sesion para que inicie sesion
 
         })
-        .catch((err) => //Si hay algun error
+        .catch((err) => //Si hay algun error como que el correo no es valido, esta usado o la contraseña no es correcta
         {
 
-            let mensajeR = "";
+            let mensajeR = "";  //Creamos el mensaje de error
 
             if(!comprobarCorreo(correo.value))  //Mandamos a revisar si lo que esta mal es el correo
             {
@@ -268,7 +273,7 @@ async function record(tiradas, movimientos, fechaI, fechaF)   //Comprobamos el r
             if(result.data().recordTiradas > tiradas)  //Si ha hecho record
             {
 
-                alert("Héroe, has establecido un récord de tiradas con "+tiradas+" tiradas");     //Muestra esto
+                alert("Héroe, has establecido un récord de tiradas con "+tiradas+" tiradas.\n Pulsa de nuevo el dado para volver a jugar");     //Muestra esto
 
                 let actu = doc(db, "usuarios", result.id);  //Actualizamos datos
 
@@ -286,7 +291,7 @@ async function record(tiradas, movimientos, fechaI, fechaF)   //Comprobamos el r
             else    //Sino
             {
 
-                alert("Récord no superado, el actual récord es "+result.data().recordTiradas);      //Muestra esto
+                alert("Récord no superado, el actual récord es "+result.data().recordTiradas+"\n Pulsa de nuevo el dado para volver a jugar");      //Muestra esto
 
             }
 
@@ -303,15 +308,14 @@ async function record(tiradas, movimientos, fechaI, fechaF)   //Comprobamos el r
 
     }
 
-    setTimeout(() =>    //Despues de 5 segundos se actualizara la pagina y volveremos al inicio de sesion
+    document.getElementById("contenedor-dado").addEventListener("click", (evento) =>
     {
 
-        location.reload();  //Se actualizara la pagina
+        vista.tablero();
 
-    },5000);    //Despues de 5 segundos
+    });
 
 }
-
 
 function guardarDatosPartida(tiradas, movimientos, fechaI, fechaF)    //Añadimos a la base de datos la informacion de la partida
 {
@@ -323,7 +327,7 @@ function guardarDatosPartida(tiradas, movimientos, fechaI, fechaF)    //Añadimo
     try     //Realizamos control de errores
     {
 
-        alert("Héroe, has establecido un récord de tiradas con "+tiradas+" tiradas"); 
+        alert("Héroe, has establecido un récord de tiradas con "+tiradas+" tiradas \n Pulsa de nuevo el dado para volver a jugar"); 
         addDoc(collection(db, "usuarios"),  //Añadimos los valores a la base de datos
         {
 
