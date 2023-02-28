@@ -7,7 +7,7 @@ function sesion()  //Estructura del inicio de sesion
 {
 
     //Imagen de fondo
-    document.getElementsByTagName("body")[0].background = "./lib/img/inicio.jpg";    //Añadimos la imagen de fondo de inicio
+    document.getElementsByTagName("body")[0].background = "./lib/img/login.avif";    //Añadimos la imagen de fondo de inicio
 
     //Variables
     let contenedor = document.createElement("div"); //Contenedor con el display flex
@@ -152,7 +152,7 @@ function registro()
 {
 
     //Imagen de fondo
-    document.getElementsByTagName("body")[0].background = "./lib/img/registro.jpg";    //Añadimos la imagen de fondo de registro
+    document.getElementsByTagName("body")[0].background = "./lib/img/login.avif";    //Añadimos la imagen de fondo de registro
 
     //Variables
     let contenedor = document.getElementById("contenedor");
@@ -231,7 +231,7 @@ function tablero()  //Mostrar el tablero de juego y limpiamos la pagina
 {
 
     //Imagen de fondo
-    document.getElementsByTagName("body")[0].background = "./lib/img/juego.png";    //Añadimos la imagen de fondo de tablero
+    document.getElementsByTagName("body")[0].background = "./lib/img/juego.gif";    //Añadimos la imagen de fondo de tablero
 
     //Variables
     let tiempoI = new Date();   //Captura de la fecha del sistema

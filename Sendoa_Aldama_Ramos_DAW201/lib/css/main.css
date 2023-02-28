@@ -60,12 +60,6 @@ body{   /* Caracteristicas para el fondo */
 
 }
 
-#contenedor-botones button:hover{
-
-    transform:  scale(1.2);
-
-}
-
 input{
 
     text-align: center;
@@ -127,14 +121,7 @@ input{
 
     height: 30px;
     width: 80%;
-
-    transition: 1s;
-
-}
-
-#play:hover{
-
-    background-color: red;
+    background-color: green;
 
 }
 
@@ -179,43 +166,46 @@ input{
 }
 
 #contenedor-dado{
+
     z-index: 1;
     margin-left: 30px;
     transform: scale(0.25);
+    
+}
+
+#jugar:hover{
+    transform: scale(1.25);
+
+}
+
+#registrar:hover{
+    transform: scale(1.25);
+
 }
 
 #tablero{
 
-    background-image: url(../img/fondo.jpg);
+    background-image: url(../img/fondo.avif);
     background-size: cover;
     background-repeat: no-repeat;
     background-position: center;
 
-    border: 1px solid black;
+    border: 1px solid rgb(42, 42, 42);
     border-collapse: collapse;
 
-    width: 90ch;
-    height: 90vh;
+    width: 651px;
+    height: 651px;
 
 }
 
 td{
 
-    border: 0.5px solid black;
+    border: 0.5px solid rgb(42, 42, 42);
 
     background-color: rgba(0, 0, 0, 0.3);
 
     width: 5ch;
     height: 5vh;
-
-}
-
-#inicio{
-
-    background-image: url(../img/casa.png);
-    background-size: cover;
-    background-repeat: no-repeat;
-    background-position: center;
 
 }
 
