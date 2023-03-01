@@ -338,3 +338,146 @@ aside.cara6 {/*arriba*/
       transform: translateZ(-150px) rotateY(360deg) rotateX(360deg);
 }
 }
+
+/* Media queries */
+
+@media (max-width: 600px) 
+{
+    
+    body{
+
+        overflow: hidden;
+
+    }
+
+    #contenedor-tabla{
+
+        margin-top: 100px;
+
+        height: 100%;
+        width: 100%;
+    
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        align-items: center;
+    
+    }
+
+    #tablero{
+
+        background-image: url(../img/fondo.avif);
+        background-size: cover;
+        background-repeat: no-repeat;
+        background-position: center;
+    
+        border: 1px solid rgb(42, 42, 42);
+        border-collapse: collapse;
+    
+        width: 451px;
+        height: 451px;
+    
+    }
+
+    #moni{
+
+        object-fit: cover;
+        width: 20px;
+        height: 25px;
+    
+    }
+
+}
+
+@media (min-width: 601px) and (max-width: 800px)
+{
+    
+    body{
+
+        overflow: hidden;
+
+    }
+
+    #contenedor-tabla{
+
+        margin-top: 100px;
+
+        height: 100%;
+        width: 100%;
+    
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        align-items: center;
+    
+    }
+
+    #tablero{
+
+        background-image: url(../img/fondo.avif);
+        background-size: cover;
+        background-repeat: no-repeat;
+        background-position: center;
+    
+        margin-left: 10px;
+
+        border: 1px solid rgb(42, 42, 42);
+        border-collapse: collapse;
+    
+        width: 451px;
+        height: 451px;
+    
+    }
+
+    #moni{
+
+        object-fit: cover;
+        width: 20px;
+        height: 25px;
+    
+    }
+
+}
+
+@media (min-width: 801px) and (max-width: 1050px)
+{
+    
+    #contenedor-tabla{
+
+        height: 100%;
+        width: 100%;
+    
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    
+    }
+
+    #tablero{
+
+        background-image: url(../img/fondo.avif);
+        background-size: cover;
+        background-repeat: no-repeat;
+        background-position: center;
+    
+        margin-left: 10px;
+
+        border: 1px solid rgb(42, 42, 42);
+        border-collapse: collapse;
+    
+        width: 451px;
+        height: 451px;
+    
+    }
+
+    #moni{
+
+        object-fit: cover;
+        width: 20px;
+        height: 25px;
+    
+    }
+
+
+
+}
