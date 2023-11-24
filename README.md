@@ -1,4 +1,4 @@
-# TRABAJO_2-EVALUACION de Sendoa Aldama Ramos
+# Juego_Tablero_JS de Sendoa Aldama Ramos
 
 Este proyecto consiste en un juego de tablero con un dado 3D.
 
